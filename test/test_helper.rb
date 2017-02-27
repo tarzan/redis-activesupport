@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'pry'
 require 'minitest/autorun'
 require 'mocha/setup'
 require 'active_support'
