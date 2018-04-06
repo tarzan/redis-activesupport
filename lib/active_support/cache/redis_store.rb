@@ -236,6 +236,19 @@ module ActiveSupport
         res || false
       end
 
+      def exists_matched?(matcher, options = nil)
+        options = merged_options(options)
+        matcher = key_matcher(matcher, options)
+        begin
+          with do |store|
+            !(store.keys(matcher)).empty?
+          end
+        rescue *ERRORS_TO_RESCUE
+          raise if raise_errors?
+          false
+        end
+      end
+
       def stats
         with(&:info)
       end

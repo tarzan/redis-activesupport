@@ -213,6 +213,18 @@ describe ActiveSupport::Cache::RedisStore do
     end
   end
 
+  it "finds matched exists" do
+    with_store_management do |store|
+      store.write "rabbit2", "easter bunny"
+      store.write "rabbit3", "bugs bunny"
+      store.exists_matched?("rabb*").must_equal(true)
+      store.delete_matched("rabbit3")
+      store.exists_matched?("rabb*").must_equal(true)
+      store.delete_matched("rabbit*")
+      store.exists_matched?("rabb*").must_equal(false)
+    end
+  end
+
   it "deletes data" do
     with_store_management do |store|
       store.delete "rabbit"
